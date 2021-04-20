@@ -1,4 +1,4 @@
-var mc = require("minecraft-protocol");
+const mineflayer = require("mineflayer");
 
 const {
   HOST: host = "localhost",
@@ -8,7 +8,9 @@ const {
   AUTH: auth = "mojang",
 } = process.env;
 
-var client = mc.createClient({
+console.log({ password, username })
+
+var bot = mineflayer.createBot({
   host,
   port,
   username,
@@ -16,4 +18,17 @@ var client = mc.createClient({
   auth, // optional; by default uses mojang, if using a microsoft account, set to 'microsoft'
 });
 
-client.on('chat', (_packet) => null);
+
+const commands = {
+  kill: () => bot.end()
+}
+
+const notFound = () => bot.chat("I don't understand")
+
+bot.on('chat', (username, message) => {
+  if(username === bot.username) return;
+  if(message.startsWith(`!bot ${bot.username} kill`)){
+    const [ _, _u, command, ...args] = message.split(' ');
+    (commands[command] || notFound)(args);
+  }
+});
