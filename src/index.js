@@ -6,6 +6,7 @@ const {
   USERNAME: username,
   PASSWORD: password,
   AUTH: auth = "mojang",
+  VERSION: version = false,
 } = process.env;
 
 console.log({ password, username })
@@ -16,6 +17,7 @@ var bot = mineflayer.createBot({
   username,
   password,
   auth, // optional; by default uses mojang, if using a microsoft account, set to 'microsoft'
+  version,
 });
 
 
